@@ -22,7 +22,7 @@
   <property name="title">
    <string>Timing Parameters</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -44,7 +44,7 @@
       <item row="0" column="1">
        <widget class="QSpinBox" name="stateSpinBox">
         <property name="maximum">
-         <number>8</number>
+         <number>16</number>
         </property>
        </widget>
       </item>
@@ -62,7 +62,7 @@
       <item row="0" column="1">
        <widget class="QSpinBox" name="passesSpinBox">
         <property name="maximum">
-         <number>8</number>
+         <number>255</number>
         </property>
        </widget>
       </item>
@@ -80,7 +80,7 @@
       <item row="0" column="1">
        <widget class="QSpinBox" name="nextStateSpinBox">
         <property name="maximum">
-         <number>8</number>
+         <number>16</number>
         </property>
        </widget>
       </item>
@@ -98,7 +98,7 @@
       <item row="0" column="1">
        <widget class="QSpinBox" name="loopsSpinBox">
         <property name="maximum">
-         <number>8</number>
+         <number>65536</number>
         </property>
        </widget>
       </item>
@@ -116,7 +116,7 @@
       <item row="0" column="1">
        <widget class="QSpinBox" name="loopStateSpinBox">
         <property name="maximum">
-         <number>8</number>
+         <number>16</number>
         </property>
        </widget>
       </item>
@@ -134,7 +134,7 @@
       <item row="0" column="1">
        <widget class="QSpinBox" name="endValueSpinBox">
         <property name="maximum">
-         <number>8</number>
+         <number>255</number>
         </property>
        </widget>
       </item>

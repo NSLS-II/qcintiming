@@ -25,6 +25,7 @@
 #include <QSpinBox>
 #include <QGroupBox>
 #include "scopewidget.h"
+#include "timingdata.h"
 
 namespace Ui {
 class TimingControls;
@@ -37,6 +38,12 @@ class TimingWidget : public QWidget
 public:
   TimingWidget(QWidget *parent = 0);
   ~TimingWidget();
+  void setTimingData(TimingData data);
+  TimingData getTimingData(void);
+  void updateTimingData(int state);
+  
+public slots:
+  void updateDisplay(int state);
 
 private:
   ScopeWidget *scope;    
@@ -48,6 +55,9 @@ private:
   QGroupBox *timingControls;
   QGroupBox *timingWaveforms;
   Ui::TimingControls *ui;
+  TimingData timingData;
+  int currentState;
+  bool inhibitUpdate;
 };
 
 #endif

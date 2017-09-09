@@ -21,6 +21,12 @@
 #define TIMINGDATA_H
 
 #include <string>
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <iomanip>
+
+using namespace std;
 
 class TimingState
 {
@@ -40,9 +46,11 @@ class TimingData
 {
   public:
     TimingData();      
-    void readFromFile(std::string file);
+    void readFromFile(string file);
+    void writeToFile(string file);
+    TimingState state[16];
   private:
-    TimingState state[8];
+    string writeLine(int i, int o, int v);
 };
 
 #endif

@@ -26,4 +26,15 @@ void MainWindow::on_actionOpen_Timing_File_triggered()
  
   TimingData data;
   data.readFromFile(filename.toStdString());
+  timing->setTimingData(data);
+}
+
+
+
+void MainWindow::on_actionSave_Timing_File_triggered()
+{
+  QString filename = QFileDialog::getSaveFileName(this, 
+      tr("Save Timing File"), "", tr("Timing Files (*.txt)"));
+
+  timing->getTimingData().writeToFile(filename.toStdString());
 }

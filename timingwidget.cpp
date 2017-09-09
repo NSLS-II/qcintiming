@@ -23,6 +23,7 @@
 #include <QGroupBox>
 
 #include "timingwidget.h"
+#include "timingdata.h"
 #include "scopewidget.h"
 
 #include "ui_timing.h"
@@ -32,6 +33,8 @@ TimingWidget::TimingWidget(QWidget *parent)
     ui(new Ui::TimingControls)
 {
   setFixedSize(1000,1000);
+
+  inhibitUpdate = false;
 
   // Create Scope Controls
 
@@ -77,6 +80,10 @@ TimingWidget::TimingWidget(QWidget *parent)
     QObject::connect(invertCheckBox[i],
                      &QCheckBox::stateChanged,
                      scope->getTrace(i), &ScopeTrace::setInverted);
+    //QObject::connect(invertCheckBox[i],
+    //                 static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged),
+    //                 this,
+    //                 &TimingWidget::updateTimingData);
 
     edge1SpinBox[i] = new QSpinBox(timingWaveforms);
     edge1SpinBox[i]->setMinimum(0);
@@ -88,6 +95,10 @@ TimingWidget::TimingWidget(QWidget *parent)
                      static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
                      scope->getTrace(i),
                      &ScopeTrace::setEdge1);
+    //QObject::connect(edge1SpinBox[i], 
+    //                 static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+    //                 this,
+    //                 &TimingWidget::updateTimingData);
     QObject::connect(scope->getTrace(i), 
                      &ScopeTrace::edge1Changed,
                      edge1SpinBox[i],
@@ -104,10 +115,78 @@ TimingWidget::TimingWidget(QWidget *parent)
                      static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
                      scope->getTrace(i), 
                      &ScopeTrace::setEdge2);
+    QObject::connect(edge2SpinBox[i], 
+                     static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+                     this,
+                     &TimingWidget::updateTimingData);
     QObject::connect(scope->getTrace(i), 
                      &ScopeTrace::edge2Changed,
                      edge2SpinBox[i],
                      &QSpinBox::setValue);
+  }
+
+  QObject::connect(ui->stateSpinBox,
+                   static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
+                   this,
+                   &TimingWidget::updateDisplay);
+
+  currentState = 0;
+}
+
+void TimingWidget::setTimingData(TimingData data)
+{
+  timingData = data;  
+  updateDisplay(0);
+}
+
+TimingData TimingWidget::getTimingData(void)
+{
+  return timingData;
+}
+
+void TimingWidget::updateDisplay(int state)
+{
+
+  inhibitUpdate = true;
+
+  ui->passesSpinBox->setValue(timingData.state[state].passes);
+  ui->nextStateSpinBox->setValue(timingData.state[state].next_state);
+  ui->loopsSpinBox->setValue(timingData.state[state].num_loops);
+  ui->loopStateSpinBox->setValue(timingData.state[state].loop_back_state);
+  ui->endValueSpinBox->setValue(timingData.state[state].end_count);
+
+  for(int i=0;i<14;i++)
+  {
+    edge1SpinBox[i]->setValue(timingData.state[state].edge1[i]);
+    edge2SpinBox[i]->setValue(timingData.state[state].edge2[i]);
+    invertCheckBox[i]->setChecked(timingData.state[state].inverted[i]);
+  }
+
+  currentState = state;
+
+  ui->stateSpinBox->setValue(state);
+
+  inhibitUpdate = false;
+}
+
+void TimingWidget::updateTimingData(int /* state */ )
+{
+  if(!inhibitUpdate)
+  {
+    int state = ui->stateSpinBox->value();
+
+    timingData.state[state].passes = ui->passesSpinBox->value();
+    timingData.state[state].next_state = ui->nextStateSpinBox->value();
+    timingData.state[state].num_loops = ui->loopsSpinBox->value();
+    timingData.state[state].loop_back_state = ui->loopStateSpinBox->value();
+    timingData.state[state].end_count = ui->endValueSpinBox->value();
+
+    for(int i=0;i<14;i++)
+    {
+      timingData.state[state].edge1[i] = edge1SpinBox[i]->value();
+      timingData.state[state].edge2[i] = edge2SpinBox[i]->value();
+      timingData.state[state].inverted[i] = invertCheckBox[i]->isChecked();
+    }
   }
 }
 
