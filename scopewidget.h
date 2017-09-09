@@ -15,38 +15,61 @@
  *
  * =====================================================================================
  */
-class ScopeHelper
+
+#ifndef SCOPEWIDGET_H
+#define SCOPEWIDGET_H
+
+#include <QWidget>
+#include <QPen>
+
+class ScopeTrace : public QWidget
 {
-public:
-  ScopeHelper();
+    Q_OBJECT
 
 public:
-  void paint(QPainter *painter, QPaintEvent *event, int elapsed);
+    ScopeTrace(QWidget *parent = 0);
+    void setWaveform(int a, int b);
+
+protected:
+    void paintEvent(QPaintEvent *event) override;
+
+signals:
+  void edge1Changed(int e);
+  void edge2Changed(int e);
+  void invertedChanged(int i);
+
+public slots:
+  void setEdge1(int e);
+  void setEdge2(int e);
+  void setInverted(int i);
 
 private:
-  QBrush background;
-  QBrush circleBrush;
-  QFont textFont;
-  QPen circlePen;
-  QPen textPen;
+    int edge1;
+    int edge2;
+    int height1;
+    int height2;
+    int length;
+    bool inverted;
+    QPen pen;
 };
-
-Class ScopeHelper;
 
 class ScopeWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    Widget(Helper *helper, QWidget *parent);
-
-public slots:
-    void animate();
+  ScopeWidget(QWidget *parent = 0, int num_traces = 1);
+  ~ScopeWidget();
+  ScopeTrace *getTrace(int n);
 
 protected:
-    void paintEvent(QPaintEvent *event) override;
+  void paintEvent(QPaintEvent *event) override;
 
 private:
-    Helper *helper;
-    int elapsed;
+  ScopeTrace *trace[256];
+  int nTraces;
+  QPen pen1;
+  QPen pen2;
 };
+
+#endif
