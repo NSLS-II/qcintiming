@@ -21,6 +21,8 @@ private slots:
 
     void on_actionSave_Timing_File_triggered();
 
+    void on_actionAbout_triggered();
+
 private:
     Ui::MainWindow *ui;
     TimingWidget *timing;

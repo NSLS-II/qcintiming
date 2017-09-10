@@ -35,6 +35,9 @@ ScopeWidget::ScopeWidget(QWidget *parent, int num_traces)
 
   pen1 = QPen(Qt::gray, 1, Qt::DashLine, Qt::RoundCap, Qt::RoundJoin);
   pen2 = QPen(Qt::gray, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+  pen3 = QPen(Qt::red, 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+
+  endValue = 255;
 
   setFixedSize(256*2,40*nTraces);
 }
@@ -45,6 +48,12 @@ ScopeWidget::~ScopeWidget()
   {
     delete trace[i];
   }
+}
+
+void ScopeWidget::setEndValue(int n)
+{
+  endValue = n;
+  repaint();
 }
 
 void ScopeWidget::paintEvent(QPaintEvent * /* event */ )
@@ -60,6 +69,9 @@ void ScopeWidget::paintEvent(QPaintEvent * /* event */ )
   {
     painter.drawLine(i*2,0,i*2,nTraces * 40 - 8);
   }
+
+  painter.setPen(pen3);
+  painter.drawLine(endValue * 2, 0, endValue * 2, nTraces * 40 - 8);
 }
 
 ScopeTrace* ScopeWidget::getTrace(int n)
@@ -78,7 +90,7 @@ ScopeTrace::ScopeTrace(QWidget *parent)
   inverted = false;
 
   setFixedSize(length * 2 + 6, height1);
-  pen = QPen(Qt::red, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+  pen = QPen(Qt::blue, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
 }
 
 void ScopeTrace::paintEvent(QPaintEvent * /* event */ )

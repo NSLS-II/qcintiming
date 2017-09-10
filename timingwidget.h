@@ -47,11 +47,11 @@ public slots:
 
 private:
   ScopeWidget *scope;    
-  QString name[14];
-  QLabel *nameLabel[14];
-  QCheckBox *invertCheckBox[14];
-  QSpinBox *edge1SpinBox[14];
-  QSpinBox *edge2SpinBox[14];
+  QString name[15];
+  QLabel *nameLabel[15];
+  QCheckBox *invertCheckBox[15];
+  QSpinBox *edge1SpinBox[15];
+  QSpinBox *edge2SpinBox[15];
   QGroupBox *timingControls;
   QGroupBox *timingWaveforms;
   Ui::TimingControls *ui;

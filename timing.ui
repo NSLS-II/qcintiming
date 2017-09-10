@@ -44,7 +44,7 @@
       <item row="0" column="1">
        <widget class="QSpinBox" name="stateSpinBox">
         <property name="maximum">
-         <number>16</number>
+         <number>15</number>
         </property>
        </widget>
       </item>
@@ -80,7 +80,7 @@
       <item row="0" column="1">
        <widget class="QSpinBox" name="nextStateSpinBox">
         <property name="maximum">
-         <number>16</number>
+         <number>15</number>
         </property>
        </widget>
       </item>
@@ -116,7 +116,7 @@
       <item row="0" column="1">
        <widget class="QSpinBox" name="loopStateSpinBox">
         <property name="maximum">
-         <number>16</number>
+         <number>15</number>
         </property>
        </widget>
       </item>

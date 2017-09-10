@@ -62,14 +62,19 @@ public:
   ~ScopeWidget();
   ScopeTrace *getTrace(int n);
 
+public slots:
+  void setEndValue(int i);
+
 protected:
   void paintEvent(QPaintEvent *event) override;
 
 private:
   ScopeTrace *trace[256];
   int nTraces;
+  int endValue;
   QPen pen1;
   QPen pen2;
+  QPen pen3;
 };
 
 #endif
