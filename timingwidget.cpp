@@ -89,7 +89,7 @@ TimingWidget::TimingWidget(QWidget *parent)
     edge1SpinBox[i] = new QSpinBox(timingWaveforms);
     edge1SpinBox[i]->setMinimum(0);
     edge1SpinBox[i]->setMaximum(255);
-    edge1SpinBox[i]->setSingleStep(8);
+    edge1SpinBox[i]->setSingleStep(1);
     edge1SpinBox[i]->move(100, i*40 + 40 + 5);
     edge1SpinBox[i]->resize(80,25);
     QObject::connect(edge1SpinBox[i], 
