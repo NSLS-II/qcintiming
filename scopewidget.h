@@ -31,7 +31,7 @@ public:
     void setWaveform(int a, int b);
 
 protected:
-    void paintEvent(QPaintEvent *event) override;
+    void paintEvent(QPaintEvent *event);
 
 signals:
   void edge1Changed(int e);
@@ -66,7 +66,7 @@ public slots:
   void setEndValue(int i);
 
 protected:
-  void paintEvent(QPaintEvent *event) override;
+  void paintEvent(QPaintEvent *event);
 
 private:
   ScopeTrace *trace[256];
