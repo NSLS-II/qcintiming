@@ -40,10 +40,10 @@ public:
   ~TimingWidget();
   void setTimingData(TimingData data);
   TimingData getTimingData(void);
-  void updateTimingData(int state);
   
 public slots:
   void updateDisplay(int state);
+  void updateTimingData(int state);
 
 private:
   ScopeWidget *scope;    

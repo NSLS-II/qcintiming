@@ -78,13 +78,11 @@ TimingWidget::TimingWidget(QWidget *parent)
     invertCheckBox[i] = new QCheckBox(timingWaveforms);
     invertCheckBox[i]->move(300, i*40 + 40);
     invertCheckBox[i]->resize(30,40);
-    QObject::connect(invertCheckBox[i],
-                     &QCheckBox::stateChanged,
-                     scope->getTrace(i), &ScopeTrace::setInverted);
-    QObject::connect(invertCheckBox[i],
-                     static_cast<void (QCheckBox::*)(int)>(&QCheckBox::stateChanged),
-                     this,
-                     &TimingWidget::updateTimingData);
+
+    connect(invertCheckBox[i], SIGNAL(stateChanged(int)),
+            scope->getTrace(i), SLOT(setInverted(int)));
+    connect(invertCheckBox[i], SIGNAL(stateChanged(int)),
+            this, SLOT(updateTimingData(int)));
 
     edge1SpinBox[i] = new QSpinBox(timingWaveforms);
     edge1SpinBox[i]->setMinimum(0);
@@ -92,18 +90,12 @@ TimingWidget::TimingWidget(QWidget *parent)
     edge1SpinBox[i]->setSingleStep(1);
     edge1SpinBox[i]->move(100, i*40 + 40 + 5);
     edge1SpinBox[i]->resize(80,25);
-    QObject::connect(edge1SpinBox[i], 
-                     static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-                     scope->getTrace(i),
-                     &ScopeTrace::setEdge1);
-    QObject::connect(edge1SpinBox[i], 
-                     static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-                     this,
-                     &TimingWidget::updateTimingData);
-    QObject::connect(scope->getTrace(i), 
-                     &ScopeTrace::edge1Changed,
-                     edge1SpinBox[i],
-                     &QSpinBox::setValue);
+    connect(edge1SpinBox[i], SIGNAL(valueChanged(int)),
+            scope->getTrace(i), SLOT(setEdge1(int)));
+    connect(edge1SpinBox[i], SIGNAL(valueChanged(int)),
+            this, SLOT(updateTimingData(int)));
+    connect(scope->getTrace(i), SIGNAL(edge1Changed(int)),
+            edge1SpinBox[i], SLOT(setValue(int)));
 
     edge2SpinBox[i] = new QSpinBox(timingWaveforms);
     edge2SpinBox[i]->setMinimum(0);
@@ -112,60 +104,41 @@ TimingWidget::TimingWidget(QWidget *parent)
     edge2SpinBox[i]->move(200, i*40 + 40 + 5);
     edge2SpinBox[i]->resize(80,25);
 
-    QObject::connect(edge2SpinBox[i], 
-                     static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-                     scope->getTrace(i), 
-                     &ScopeTrace::setEdge2);
-    QObject::connect(edge2SpinBox[i], 
-                     static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-                     this,
-                     &TimingWidget::updateTimingData);
-    QObject::connect(scope->getTrace(i), 
-                     &ScopeTrace::edge2Changed,
-                     edge2SpinBox[i],
-                     &QSpinBox::setValue);
+    connect(edge2SpinBox[i], SIGNAL(valueChanged(int)),
+            scope->getTrace(i), SLOT(setEdge2(int)));
+    connect(edge2SpinBox[i], SIGNAL(valueChanged(int)),
+            this, SLOT(updateTimingData(int)));
+    connect(scope->getTrace(i), SIGNAL(edge2Changed(int)),
+            edge2SpinBox[i], SLOT(setValue(int)));
   }
 
   // Setup connection to loop through states
 
-  QObject::connect(ui->stateSpinBox,
-                   static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-                   this,
-                   &TimingWidget::updateDisplay);
+  connect(ui->stateSpinBox, SIGNAL(valueChanged(int)),
+          this, SLOT(updateDisplay(int)));
 
   // Setup connections to change timing data if controls are changed
 
-  QObject::connect(ui->passesSpinBox,
-                   static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-                   this,
-                   &TimingWidget::updateTimingData);
+  connect(ui->passesSpinBox, SIGNAL(valueChanged(int)),
+          this, SLOT(updateTimingData(int)));
 
-  QObject::connect(ui->nextStateSpinBox,
-                   static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-                   this,
-                   &TimingWidget::updateTimingData);
+  connect(ui->nextStateSpinBox, SIGNAL(valueChanged(int)), 
+          this, SLOT(updateTimingData(int)));
 
-  QObject::connect(ui->loopsSpinBox,
-                   static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-                   this,
-                   &TimingWidget::updateTimingData);
+  connect(ui->loopsSpinBox, SIGNAL(valueChanged(int)),
+          this, SLOT(updateTimingData(int)));
 
-  QObject::connect(ui->loopStateSpinBox, 
-                   static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-                   this,
-                   &TimingWidget::updateTimingData);
+  connect(ui->loopStateSpinBox, SIGNAL(valueChanged(int)),
+          this, SLOT(updateTimingData(int)));
 
-  QObject::connect(ui->endValueSpinBox,
-                   static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-                   this,
-                   &TimingWidget::updateTimingData);
+  connect(ui->endValueSpinBox, SIGNAL(valueChanged(int)), 
+          this, SLOT(updateTimingData(int)));
 
   // Now move the end value line
   
-  QObject::connect(ui->endValueSpinBox,
-                   static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged),
-                   scope,
-                   &ScopeWidget::setEndValue);
+  connect(ui->endValueSpinBox, SIGNAL(valueChanged(int)),
+          scope, SLOT(setEndValue(int)));
+
   currentState = 0;
 }
 
