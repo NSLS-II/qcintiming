@@ -21,6 +21,9 @@
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
+#include <stdlib.h>
+#include <stdio.h>
+#include <errno.h>
 
 #include "timingdata.h"
 
@@ -107,10 +110,9 @@ bool TimingData::readFromFile(string name)
           break;
         }
         ss >> s2;
-        try {
-          data[j++] = stoi(s2, nullptr, 16);
-        } 
-        catch(...) {
+        char *end;
+        data[j++] = strtol(s2.c_str(), &end, 16);
+        if(errno == ERANGE){
           errorMessageStream << "INVALID FILE : Could not convert hex to dec at line " << i << endl;
           valid = false;
           break;
