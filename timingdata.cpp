@@ -60,7 +60,7 @@ bool TimingData::readFromFile(string name)
   ifstream file;
   bool valid = true;
 
-  file.open(name);
+  file.open(name.c_str());
   if(!file.is_open()){
     errorMessage = "Unable to open file";
     return false;
