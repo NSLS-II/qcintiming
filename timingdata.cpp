@@ -169,7 +169,7 @@ bool TimingData::readFromFile(string name)
 void TimingData::writeToFile(string name)
 {
   ofstream file;
-  file.open(name);
+  file.open(name.c_str());
 
   if(file.is_open())
   {
